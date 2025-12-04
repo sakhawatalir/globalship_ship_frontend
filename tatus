@@ -1,0 +1,5 @@
+[33mf81677d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Fix about page build errors: remove unused Breadcrumb import, fix Swiper CSS imports for v11 compatibility, resolve component import issues
+[33mccd9f81[m Fix contact page: replace fashion header/footer with Cartzilla electronics components, update branding, remove Instagram content, link help center button to actual help page
+[33mf1a2677[m Redesign about page with Cartzilla theme: modern hero section, enhanced stats with icons, improved principles section, better visual elements and badges
+[33m9fdbe63[m Fix delivery page layout: correct left sidebar to show help categories, update help page link to point to main delivery page, match image design exactly
+[33m678e36a[m Create delivery page: add two-column layout with left sidebar navigation and right content area, update main help page to link to delivery page

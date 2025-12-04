@@ -1,0 +1,429 @@
+// Footer Styles
+.footer {
+  position: relative;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  
+  // Premium gradient overlay
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, #ff6b35 50%, transparent 100%);
+  }
+
+  // Footer links
+  .footer-link {
+    position: relative;
+    transition: all 0.3s ease;
+    font-weight: 400;
+    
+    &:hover {
+      color: #ff6b35 !important;
+      transform: translateX(3px);
+      
+      &::before {
+        content: '';
+        position: absolute;
+        left: -8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 4px;
+        background: #ff6b35;
+        border-radius: 50%;
+        opacity: 1;
+      }
+    }
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      background: #ff6b35;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+  }
+
+  // Section headings
+  h6 {
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 30px;
+      height: 2px;
+      background: linear-gradient(90deg, #ff6b35, #f7931e);
+      border-radius: 1px;
+    }
+  }
+
+  // App download section
+  .bg-gradient-primary {
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+  }
+
+  // Social media icons
+  .bg-white.bg-opacity-10 {
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    
+    &:hover {
+      background: rgba(255, 107, 53, 0.2) !important;
+      border-color: #ff6b35;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+    }
+  }
+
+  // Security badges
+  .ci-shield-check, .ci-credit-card {
+    transition: transform 0.3s ease;
+  }
+  
+  .d-flex.align-items-center:hover {
+    .ci-shield-check, .ci-credit-card {
+      transform: scale(1.1);
+    }
+  }
+
+  // Payment method icons
+  .bg-white.rounded {
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      border-color: #ff6b35;
+    }
+  }
+
+  // Bottom section
+  .border-top {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  // Responsive improvements
+  @media (max-width: 768px) {
+    .py-5 {
+      padding-top: 3rem !important;
+      padding-bottom: 3rem !important;
+    }
+    
+    h6 {
+      font-size: 13px !important;
+      margin-bottom: 1.5rem !important;
+    }
+    
+    .footer-link {
+      font-size: 13px !important;
+      margin-bottom: 0.75rem !important;
+    }
+    
+    .social-media {
+      justify-content: center !important;
+    }
+  }
+}
+
+// Header Styles for Prominent Search
+.header-electronics {
+  // Prevent overlapping issues
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  .col, .col-lg-2, .col-lg-7, .col-lg-3 {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  
+  // Prominent search bar
+  .form-control {
+    &:focus {
+      outline: none !important;
+      border-color: #ff6b35 !important;
+      box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25) !important;
+      transform: scale(1.02);
+    }
+    
+    &:hover {
+      border-color: #ff6b35 !important;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2) !important;
+    }
+  }
+  
+  // Search button hover effects
+  .btn-danger {
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(220, 53, 69, 0.5) !important;
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+  
+  // Camera icon hover effect
+  .ci-camera {
+    transition: all 0.3s ease;
+    
+    &:hover {
+      color: #ff6b35 !important;
+      transform: translateY(-50%) scale(1.1);
+    }
+  }
+  
+  // Logo hover effect
+  a:hover {
+    .text-danger {
+      color: #ff6b35 !important;
+    }
+    
+    .bg-danger {
+      background-color: #ff6b35 !important;
+    }
+  }
+  
+  // Category navigation fixes
+  .category-nav {
+    .btn, a {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px;
+    }
+    
+    .me-3 {
+      margin-right: 1rem !important;
+    }
+  }
+  
+  // Right icons spacing
+  .d-flex.gap-3 > * {
+    min-width: 60px;
+    text-align: center;
+    
+    .small {
+      font-size: 11px;
+      line-height: 1.2;
+      margin-top: 2px;
+    }
+  }
+  
+  // Responsive fixes
+  @media (max-width: 1200px) {
+    .col-lg-2, .col-lg-7, .col-lg-3 {
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+    
+    .category-nav {
+      gap: 0.5rem !important;
+      
+      .me-3 {
+        margin-right: 0.5rem !important;
+      }
+    }
+  }
+}
+
+// Header icon visibility and link styling
+.header-electronics {
+  // Ensure icons are visible
+  .ci-bell,
+  .ci-user,
+  .ci-package,
+  .ci-cart {
+    display: inline-block !important;
+    font-size: 20px !important;
+    color: #333 !important;
+    line-height: 1;
+  }
+  
+  // Make links clickable and styled
+  a {
+    text-decoration: none !important;
+    color: inherit !important;
+    
+    &:hover {
+      text-decoration: none !important;
+      
+      .ci-bell,
+      .ci-user,
+      .ci-package,
+      .ci-cart {
+        color: #dc3545 !important;
+      }
+      
+      .small {
+        color: #dc3545 !important;
+      }
+    }
+  }
+  
+  // Badge positioning
+  .badge {
+    z-index: 10;
+  }
+  
+  // Icon container styling
+  .text-center {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// Shimmer animation
+@keyframes shimmer {
+  0%, 100% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  50% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+// Premium hover effects for entire footer
+.footer:hover {
+  .footer-link {
+    transition-delay: 0.1s;
+  }
+}
+
+// Enhanced typography
+.footer {
+  .text-white-75 {
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+  
+  .small {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  
+  // Premium spacing
+  .mb-4 {
+    margin-bottom: 2rem !important;
+  }
+  
+  .mb-3 {
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .gap-3 {
+    gap: 1.5rem !important;
+  }
+  
+  .gap-4 {
+    gap: 2rem !important;
+  }
+}
+
+// Hero Banner Styles
+.hero-swiper {
+  border-radius: 1rem;
+}
+
+.hero-pagination {
+  .swiper-pagination-bullet {
+    background: white;
+    opacity: 0.5;
+  }
+  
+  .swiper-pagination-bullet-active {
+    opacity: 1;
+  }
+}
+
+.hero-prev:hover,
+.hero-next:hover {
+  background-color: white !important;
+}
+
+// Product Card Styles
+.product-card {
+  transition: all 0.2s ease-in-out;
+  border: 1px solid #e9ecef !important;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: #ff6b35 !important;
+  }
+  
+  // Image improvements
+  img {
+    transition: transform 0.2s ease-in-out;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+  
+  // Price styling
+  .text-danger {
+    color: #ff6b35 !important;
+  }
+  
+  // Rating stars
+  .text-warning {
+    color: #ffc107 !important;
+  }
+}
+
+// Responsive improvements
+@media (max-width: 768px) {
+  .product-card {
+    padding: 0.75rem !important;
+    
+    h6 {
+      font-size: 11px !important;
+    }
+    
+    .text-danger {
+      font-size: 14px !important;
+    }
+  }
+  
+  .header-electronics {
+    .category-nav {
+      gap: 0.5rem !important;
+      
+      .btn, a {
+        font-size: 12px !important;
+        padding: 0.25rem 0.5rem !important;
+      }
+    }
+  }
+}
