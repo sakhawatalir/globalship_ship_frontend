@@ -1,12 +1,18 @@
-import js from '@eslint/js';
-import nextConfig from 'eslint-config-next/core-web-vitals.js';
+// eslint.config.js
+
+import eslintConfigNext from "eslint-config-next";
+import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
-  js.configs.recommended,
-  nextConfig,
+  {
+    ...eslintConfigNext(),
+    files: ["**/*.{js,jsx,ts,tsx}"],
+  },
   {
     rules: {
-      'react-hooks/exhaustive-deps': 'off'
-    }
-  }
-]; 
+      "react/react-in-jsx-scope": "off", // React 17+
+      "react/jsx-uses-react": "off",
+    },
+  },
+  eslintConfigPrettier,
+];
