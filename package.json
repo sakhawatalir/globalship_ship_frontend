@@ -2,6 +2,7 @@
   "name": "cartzilla-react",
   "description": "Cartzilla - Multipurpose E-Commerce React / Next.js Bootstrap Template",
   "version": "1.0.0",
+  "type": "module",
   "homepage": "https://cartzilla-react.createx.studio",
   "author": "https://createx.studio/",
   "private": true,
