@@ -8,11 +8,73 @@ import { CategoryCard } from '@/components/newComponents/CategoryCard';
 import { ProductSection } from '@/components/newComponents/ProductSection';
 import { Footer } from '@/components/newComponents/Footer';
 import styles from './page.module.css';
+import { ProductService, Product as ServiceProduct } from '@/services/products'
 
-export default function NewHomePage() {
-      const [currentPage, setCurrentPage] = useState<"home" | "browse">("home");
+type Store = {
+  id: number
+  name: string
+  slug: string
+}
+  type Product = ServiceProduct & {
+    store?: Store
+    image_url?: string
+    original_price?: number
+    price_formatted?: string
+    original_price_formatted?: string
+  }
 
-  const categories = [
+  type HomeData = {
+    featuredProducts: Product[]
+    trendingProducts: Product[]
+    categories: any[]
+    brands: any[]
+  }
+  async function fetchHomeData() {
+    try {
+      // Fetch all data on the server
+      const [featured, trending, categoriesData, brandsData] = await Promise.all([
+        ProductService.getProducts({ page: 1, per_page: 8 }),
+        ProductService.getProducts({ page: 2, per_page: 8 }),
+        ProductService.getCategories(),
+        ProductService.getBrands(),
+      ])
+      return {
+        featuredProducts: (featured.data || []) as Product[],
+        trendingProducts: (trending.data || []) as Product[],
+        categories: categoriesData.data || [],
+        brands: brandsData.data || [],
+      }
+    } catch (error) {
+      console.warn('Failed to fetch home data:', error)
+      // Return empty arrays as fallback
+      return {
+        featuredProducts: [] as Product[],
+        trendingProducts: [] as Product[],
+        categories: [],
+        brands: [],
+      }
+    }
+  }
+export default async function NewHomePage() {
+  const [currentPage, setCurrentPage] = useState<'home' | 'browse'>('home')
+   const data = await fetchHomeData()
+   const featuredProducts = data.featuredProducts
+   const trendingProducts = data.trendingProducts
+   const categories = data.categories
+   const brands = data.brands
+   const storeSet = new Set(featuredProducts.map((product) => product?.store?.name).filter(Boolean))
+   const stores = [...storeSet]
+  const transformedCategories = categories.map((category, idx) => ({
+    ...category,
+    href: `/shop/${category.slug}`,
+    subcategories: [], // Add subcategories if needed
+    parent_id: category.parent_id || 0, // Ensure parent_id is always a number
+    id: category.id ?? idx,
+  }));
+
+
+
+  const categoriess = [
     {
       id: 1,
       title: "Electronics",
@@ -70,6 +132,18 @@ export default function NewHomePage() {
       icon: Car,
     },
   ];
+  
+  // Build a render list preferring fetched categories, with fallback to static `categoriess`.
+  const categoriesToRender = (transformedCategories && transformedCategories.length)
+    ? transformedCategories.map((cat, idx) => ({
+        id: cat.id ?? idx,
+        title: (cat as any).name || (cat as any).title || cat.slug || `Category ${idx + 1}`,
+        description: (cat as any).description || '',
+        image: (cat as any).image || `https://picsum.photos/seed/${cat.slug ?? idx}/800/600`,
+        icon: ShoppingBag,
+        href: cat.href,
+      }))
+    : categoriess;
   return (
     <div className={`${styles.pageTheme} min-h-screen bg-gray-50`}>
       <Navigation onNavigate={setCurrentPage} currentPage={currentPage} />
@@ -82,13 +156,16 @@ export default function NewHomePage() {
           
           <div className="mt-12">
             <div className="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {categories.map((category) => (
+              {categoriesToRender.map((category) => (
                 <CategoryCard key={category.id} category={category} />
               ))}
             </div>
           </div>
 
-          <ProductSection />
+          <ProductSection sections={[
+            { title: 'Featured', products: featuredProducts },
+            { title: 'Trending', products: trendingProducts },
+          ]} />
         </main>
       ) : (
         // <Browse />

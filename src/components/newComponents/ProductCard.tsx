@@ -3,26 +3,33 @@ import { Star } from "lucide-react";
 import { Badge } from "./ui/badge";
 
 interface ProductCardProps {
-  product: {
-    id: number;
-    image: string;
-    brand: string;
-    title: string;
-    rating: number;
-    currentPrice: number;
-    originalPrice: number;
-    discount: number;
-    exclusive?: boolean;
-  };
+  product: any;
+}
+
+function parsePrice(value: any) {
+  if (value == null) return undefined;
+  if (typeof value === 'number') return value;
+  if (typeof value === 'string') {
+    // try to parse numeric strings, possibly with currency symbols
+    const cleaned = value.replace(/[^0-9.-]+/g, '');
+    const n = Number(cleaned);
+    return Number.isFinite(n) ? n : undefined;
+  }
+  return undefined;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const currentPrice = parsePrice(product?.currentPrice ?? product?.current_price ?? product?.price ?? product?.price_formatted);
+  const originalPrice = parsePrice(product?.originalPrice ?? product?.original_price ?? product?.original_price_formatted);
+  const discount = product?.discount ?? (currentPrice && originalPrice ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : undefined);
+  const rating = product?.rating ?? product?.average_rating ?? 0;
+  const imageSrc = product?.image ?? product?.image_url ?? product?.thumbnail ?? '';
   return (
     <div className="group cursor-pointer">
       <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100 mb-3">
         <ImageWithFallback
-          src={product.image}
-          alt={product.title}
+          src={imageSrc}
+          alt={product?.title ?? product?.name ?? ''}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         {product.exclusive && (
@@ -57,13 +64,23 @@ export function ProductCard({ product }: ProductCardProps) {
               className="h-3.5 w-3.5 fill-black text-black"
             />
           ))}
-          <span className="ml-1 text-sm">{product.rating}</span>
+          <span className="ml-1 text-sm">{rating}</span>
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-gray-900">${product.currentPrice.toFixed(2)}</span>
-          <span className="text-gray-400 line-through text-sm">${product.originalPrice.toFixed(2)}</span>
-          <span className="text-green-600 text-sm">{product.discount}% off</span>
+          {typeof currentPrice === 'number' ? (
+            <span className="text-gray-900">${currentPrice.toFixed(2)}</span>
+          ) : (
+            <span className="text-gray-900">&nbsp;</span>
+          )}
+
+          {typeof originalPrice === 'number' ? (
+            <span className="text-gray-400 line-through text-sm">${originalPrice.toFixed(2)}</span>
+          ) : null}
+
+          {typeof discount === 'number' ? (
+            <span className="text-green-600 text-sm">{discount}% off</span>
+          ) : null}
         </div>
       </div>
     </div>

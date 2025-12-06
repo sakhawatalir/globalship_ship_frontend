@@ -1,7 +1,7 @@
 import { ProductCard } from "./ProductCard";
 import { ChevronRight } from "lucide-react";
 
-export function ProductSection() {
+export function ProductSection({ sections }: { sections?: { title: string; products: any[] }[] }) {
   const womenProducts = [
     {
       id: 1,
@@ -458,7 +458,7 @@ export function ProductSection() {
     },
   ];
 
-  const categories = [
+  const defaultCategories = [
     { title: "Women", products: womenProducts },
     { title: "Men", products: menProducts },
     { title: "Electronics", products: electronicsProducts },
@@ -467,6 +467,8 @@ export function ProductSection() {
     { title: "Accessories", products: accessoriesProducts },
     { title: "Health & Nutrition", products: healthProducts },
   ];
+
+  const categories = sections && sections.length ? sections : defaultCategories;
 
   return (
     <div className="mt-16 space-y-12">
