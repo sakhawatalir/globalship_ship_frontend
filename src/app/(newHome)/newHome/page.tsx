@@ -1,13 +1,13 @@
 "use client"
+import '@/styles/tailwind.css';
 import { Navigation } from '@/components/newComponents/Navigation';
 import { ShoppingBag, Smartphone, Shirt, Home, Dumbbell, Sparkles, BookOpen, Watch, Gamepad2, Car } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Banner } from '@/components/newComponents/Banner';
 import { Features } from '@/components/newComponents/Features';
 import { CategoryCard } from '@/components/newComponents/CategoryCard';
 import { ProductSection } from '@/components/newComponents/ProductSection';
 import { Footer } from '@/components/newComponents/Footer';
-import styles from './page.module.css';
 import { ProductService, Product as ServiceProduct } from '@/services/products'
 
 type Store = {
@@ -15,62 +15,88 @@ type Store = {
   name: string
   slug: string
 }
-  type Product = ServiceProduct & {
-    store?: Store
-    image_url?: string
-    original_price?: number
-    price_formatted?: string
-    original_price_formatted?: string
-  }
+type Product = ServiceProduct & {
+  store?: Store
+  image_url?: string
+  original_price?: number
+  price_formatted?: string
+  original_price_formatted?: string
+}
 
-  type HomeData = {
-    featuredProducts: Product[]
-    trendingProducts: Product[]
-    categories: any[]
-    brands: any[]
-  }
-  async function fetchHomeData() {
-    try {
-      // Fetch all data on the server
-      const [featured, trending, categoriesData, brandsData] = await Promise.all([
-        ProductService.getProducts({ page: 1, per_page: 8 }),
-        ProductService.getProducts({ page: 2, per_page: 8 }),
-        ProductService.getCategories(),
-        ProductService.getBrands(),
-      ])
-      return {
-        featuredProducts: (featured.data || []) as Product[],
-        trendingProducts: (trending.data || []) as Product[],
-        categories: categoriesData.data || [],
-        brands: brandsData.data || [],
-      }
-    } catch (error) {
-      console.warn('Failed to fetch home data:', error)
-      // Return empty arrays as fallback
-      return {
-        featuredProducts: [] as Product[],
-        trendingProducts: [] as Product[],
-        categories: [],
-        brands: [],
+type HomeData = {
+  featuredProducts: Product[]
+  trendingProducts: Product[]
+  categories: any[]
+  brands: any[]
+}
+
+export default function NewHomePage() {
+  const [currentPage, setCurrentPage] = useState<'home' | 'browse'>('home')
+  const [data, setData] = useState<HomeData>({
+    featuredProducts: [],
+    trendingProducts: [],
+    categories: [],
+    brands: [],
+  })
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const hasAttempted = useRef(false)
+
+  useEffect(() => {
+    if (hasAttempted.current) return; // Prevent multiple fetch attempts
+    hasAttempted.current = true;
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+
+    async function fetchHomeData() {
+      try {
+        setIsLoading(true)
+        setError(null)
+        
+        const [featured, trending, categoriesData, brandsData] = await Promise.all([
+          ProductService.getProducts({ page: 1, per_page: 8 }),
+          ProductService.getProducts({ page: 2, per_page: 8 }),
+          ProductService.getCategories(),
+          ProductService.getBrands(),
+        ])
+        
+        setData({
+          featuredProducts: (featured.data || []) as Product[],
+          trendingProducts: (trending.data || []) as Product[],
+          categories: categoriesData.data || [],
+          brands: brandsData.data || [],
+        })
+      } catch (err) {
+        console.warn('Failed to fetch home data:', err)
+        setError('Failed to load products. Using default data.')
+        // Keep empty state - don't retry
+        setData({
+          featuredProducts: [],
+          trendingProducts: [],
+          categories: [],
+          brands: [],
+        })
+      } finally {
+        setIsLoading(false)
+        clearTimeout(timeoutId)
       }
     }
-  }
-export default async function NewHomePage() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'browse'>('home')
-   const data = await fetchHomeData()
-   const featuredProducts = data.featuredProducts
-   const trendingProducts = data.trendingProducts
-   const categories = data.categories
-   const brands = data.brands
-   const storeSet = new Set(featuredProducts.map((product) => product?.store?.name).filter(Boolean))
-   const stores = [...storeSet]
-  const transformedCategories = categories.map((category, idx) => ({
-    ...category,
-    href: `/shop/${category.slug}`,
-    subcategories: [], // Add subcategories if needed
-    parent_id: category.parent_id || 0, // Ensure parent_id is always a number
-    id: category.id ?? idx,
-  }));
+
+    fetchHomeData()
+
+    return () => {
+      controller.abort()
+      clearTimeout(timeoutId)
+    }
+  }, [])
+
+  const featuredProducts = data.featuredProducts
+  const trendingProducts = data.trendingProducts
+  const categories = data.categories
+  const brands = data.brands
+  const storeSet = new Set(featuredProducts.map((product) => product?.store?.name).filter(Boolean))
+  const stores = [...storeSet]
 
 
 
@@ -134,6 +160,14 @@ export default async function NewHomePage() {
   ];
   
   // Build a render list preferring fetched categories, with fallback to static `categoriess`.
+  const transformedCategories = categories.map((category, idx) => ({
+    ...category,
+    href: `/shop/${category.slug}`,
+    subcategories: [], // Add subcategories if needed
+    parent_id: category.parent_id || 0, // Ensure parent_id is always a number
+    id: category.id ?? idx,
+  }));
+
   const categoriesToRender = (transformedCategories && transformedCategories.length)
     ? transformedCategories.map((cat, idx) => ({
         id: cat.id ?? idx,
@@ -145,7 +179,7 @@ export default async function NewHomePage() {
       }))
     : categoriess;
   return (
-    <div className={`${styles.pageTheme} min-h-screen bg-gray-50`}>
+    <div className="isolate min-h-screen bg-white text-black" style={{all: 'revert'}}>
       <Navigation onNavigate={setCurrentPage} currentPage={currentPage} />
       
       {currentPage === "home" ? (

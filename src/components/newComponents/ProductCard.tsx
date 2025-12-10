@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Star } from "lucide-react";
 import { Badge } from "./ui/badge";
@@ -24,8 +25,13 @@ export function ProductCard({ product }: ProductCardProps) {
   const discount = product?.discount ?? (currentPrice && originalPrice ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : undefined);
   const rating = product?.rating ?? product?.average_rating ?? 0;
   const imageSrc = product?.image ?? product?.image_url ?? product?.thumbnail ?? '';
+  
+  // Generate product slug from title or use ID
+  const productSlug = product?.slug ?? product?.title?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') ?? `product-${product?.id}`;
+  
   return (
-    <div className="group cursor-pointer">
+    <Link href={`/shop/electronics/product?slug=${productSlug}`}>
+      <div className="group cursor-pointer">
       <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100 mb-3">
         <ImageWithFallback
           src={imageSrc}
@@ -83,6 +89,7 @@ export function ProductCard({ product }: ProductCardProps) {
           ) : null}
         </div>
       </div>
-    </div>
+      </div>
+    </Link>
   );
 }

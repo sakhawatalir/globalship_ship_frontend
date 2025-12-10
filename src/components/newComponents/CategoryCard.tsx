@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LucideIcon } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
@@ -15,9 +16,13 @@ interface CategoryCardProps {
 
 export function CategoryCard({ category }: CategoryCardProps) {
   const Icon = category.icon;
+  
+  // Generate category slug from title
+  const categorySlug = category.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
 
   return (
-    <Card className="group cursor-pointer overflow-hidden hover:shadow-xl transition-all duration-300">
+    <Link href={`/category/${categorySlug}`}>
+      <Card className="group cursor-pointer overflow-hidden hover:shadow-xl transition-all duration-300">
       <div className="relative h-32 overflow-hidden">
         <ImageWithFallback
           src={category.image}
@@ -40,6 +45,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
           </div>
         </div>
       </div>
-    </Card>
+      </Card>
+    </Link>
   );
 }
