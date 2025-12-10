@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { OrderProvider } from '../../contexts/order-context';
-import OrderTracker from '../../components/order/OrderTracker';
-import OrderDetails from '../../components/order/OrderDetails';
+import { OrderProvider } from '../../../contexts/order-context';
+import OrderTracker from '../../../components/order/OrderTracker';
+import OrderDetails from '../../../components/order/OrderDetails';
 
 export default function OrderTrackingPage() {
   return (

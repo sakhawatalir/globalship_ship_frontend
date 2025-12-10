@@ -10,7 +10,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas'
 import FormControl from 'react-bootstrap/FormControl'
 import ScrollSpy from '@/components/scrollspy'
 import DocsNavEvents from '@/components/docs/docs-nav-events'
-import navigation from '@/app/docs/navigation'
+import navigation from '@/app/(default)/docs/navigation'
 import SimpleBar from 'simplebar-react'
 import 'simplebar-react/dist/simplebar.min.css'
 

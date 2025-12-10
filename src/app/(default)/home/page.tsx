@@ -17,9 +17,9 @@ import { CategoriesProvider } from '@/contexts/categories-context'
 import Button from 'react-bootstrap/Button'
 import React from 'react'
 import AcrossBordersSection from '@/components/sections/across-borders-section'
-import HeroBannerJoom from '@/app/home/hero-slider'
-import HeroSearchGrid from '@/app/home/HeroSearchGrid'
-import TestCard from '@/app/home/TestCard'
+import HeroBannerJoom from './hero-slider'
+import HeroSearchGrid from './HeroSearchGrid'
+import TestCard from './TestCard'
 
 export const revalidate = 60 // ISR: Regenerate every 60 seconds
 
