@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   title: 'Cartzilla Docs | Hotspots',
 }
 
+export const dynamic = 'force-dynamic'
+
 const HotspotsDocsPage = () => {
   const code = `import Image from 'next/image'
 import Hotspot from '@/components/hotspot'
