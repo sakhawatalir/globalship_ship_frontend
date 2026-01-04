@@ -15,13 +15,11 @@ import HydrationProvider from '@/components/providers/hydration-provider'
 import ScrollTopButton from '@/components/scroll-top-button'
 
 import '@/icons/font/cartzillaIcons.css'
-import '@/styles/tailwind.css'
-import '@/styles/theme.scss'
-import '@/styles/theme-variables.css'
+import '@/styles/tailwind-only.scss'
 
 export const metadata: Metadata = {
-  title: 'Cartzilla | Multipurpose E-Commerce React / Next.js Bootstrap Template',
-  description: 'Cartzilla - Multipurpose E-Commerce React / Next.js Bootstrap Template',
+  title: 'Cartzilla | New Home - Modern E-Commerce',
+  description: 'Cartzilla New Home - Multipurpose E-Commerce React / Next.js Template',
   keywords: [
     'online shop',
     'e-commerce',
@@ -33,7 +31,7 @@ export const metadata: Metadata = {
     'checkout',
     'react',
     'nextjs',
-    'bootstrap',
+    'tailwind',
     'ui kit',
     'light and dark mode',
     'gallery',
@@ -47,14 +45,14 @@ export const metadata: Metadata = {
 const inter = Inter({ subsets: ['latin'] })
 
 const cartzillaIcons = localFont({
-  src: '../icons/font/cartzillaIcons.woff2',
+  src: '../../icons/font/cartzillaIcons.woff2',
   preload: true,
   adjustFontFallback: false,
 })
 
 const isRTLEnabled = process.env.NEXT_PUBLIC_ENABLE_RTL === 'true'
 
-const RootLayout = ({ children }: React.PropsWithChildren) => (
+const NewHomeLayout = ({ children }: React.PropsWithChildren) => (
   <html lang="en" dir={isRTLEnabled ? 'rtl' : 'ltr'} suppressHydrationWarning>
     <body className={`${inter.className}`} suppressHydrationWarning>
       <ThemeProvider attribute="data-bs-theme" defaultTheme="light" disableTransitionOnChange>
@@ -74,13 +72,10 @@ const RootLayout = ({ children }: React.PropsWithChildren) => (
               </AuthProvider>
             </ModalProvider>
           </OffcanvasProvider>
-          {/* <div className="floating-buttons position-fixed top-50 end-0 z-sticky me-3 me-xl-4 pb-4">
-            <ScrollTopButton scrollOffset={500} />
-          </div> */}
         </ProgressProvider>
       </ThemeProvider>
     </body>
   </html>
 )
 
-export default RootLayout
+export default NewHomeLayout

@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { botbleAPI } from '../../services/api';
-import OrderList from '../../components/order/OrderList';
-import UserProfile from '../../components/account/UserProfile';
-import Wishlist from '../../components/account/Wishlist';
-import ProductReviews from '../../components/reviews/ProductReviews';
+import { botbleAPI } from '../../../services/api';
+import OrderList from '../../../components/order/OrderList';
+import UserProfile from '../../../components/account/UserProfile';
+import Wishlist from '../../../components/account/Wishlist';
+import ProductReviews from '../../../components/reviews/ProductReviews';
 
 export default function TestIntegrationPage() {
   const [apiStatus, setApiStatus] = useState<{

@@ -13,7 +13,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import { ProductService } from '@/services/products'
-import BrandsCategoriesElectronics from '@/app/shop/brands'
+import BrandsCategoriesElectronics from '../../shop/brands'
 
 export const metadata: Metadata = {
   title: 'Cartzilla | Electronics Store - Categories',
